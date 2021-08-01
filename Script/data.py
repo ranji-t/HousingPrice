@@ -7,6 +7,10 @@ from glob import glob
 from sklearn.impute import KNNImputer
 from sklearn.preprocessing import QuantileTransformer
 
+def Native():
+    print("Native Run")
+    return None
+
 def data():
     def get_housing_data(*, verbose: bool=True):
         """
@@ -570,3 +574,6 @@ def data():
     x_test_filled  = pd.DataFrame(QT.inverse_transform(x_test_impute),  columns=test.columns,     index=test.index)
 
     return x_train_filled, y_train, x_test_filled, sample
+
+if __name__ == "__name__":
+    Native()
