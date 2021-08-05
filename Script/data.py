@@ -7,18 +7,22 @@ from glob import glob
 from sklearn.impute import KNNImputer
 from sklearn.preprocessing import QuantileTransformer
 
+
 def Native():
     print("Native Run")
     return None
 
-def data():
-    def get_housing_data(*, verbose: bool=True):
+
+def get_housing_data(*, verbose: bool=True):
         """
         Reads original CSV files from Directory structure.
         """
         path = r"..\Data\*"
         file_path = [ _ for _ in glob(path) ]
         return [ pd.read_csv(_, verbose=verbose) for _ in file_path ]
+
+
+def data():
 
     def mean_reduction(var_name_1:str, var_name_2:str="SalePrice")->pd.DataFrame:
         tabel    = train.loc[:, [var_name_1, var_name_2]]
@@ -37,8 +41,8 @@ def data():
     train["Age_At_Sale"] = train.loc[:, "YrSold"] - train.loc[:, "YearBuilt"]
     test["Age_At_Sale"]  =  test.loc[:, "YrSold"] -  test.loc[:, "YearBuilt"]
     #
-    train["Remodel_Age"] = train.YrSold - train.YearRemodAdd
-    test["Remodel_Age"]  = test.YrSold  -  test.YearRemodAdd
+    # train["Remodel_Age"] = train.YrSold - train.YearRemodAdd
+    # test["Remodel_Age"]  = test.YrSold  -  test.YearRemodAdd
     #
     train["Remodel_Done"] = (train.YearRemodAdd - train.YearBuilt).apply(lambda x: 1 if x>0 else 0)
     test["Remodel_Done"]  = (test.YearRemodAdd  -  test.YearBuilt).apply(lambda x: 1 if x>0 else 0)
@@ -540,7 +544,7 @@ def data():
             "Utilities","Condition2","YearBuilt","RoofMatl","ExterCond","Heating","KitchenAbvGr","PoolArea","Fence",
             "MiscFeature","Street","Alley","PoolQC","LandSlope", "BsmtCond", "Id", "BsmtFinSF2","BsmtUnfSF",'1stFlrSF',
             '2ndFlrSF','WoodDeckSF','OpenPorchSF','EnclosedPorch',"Half_bath","Full_bath",'BsmtFullBath','BsmtHalfBath',
-            'FullBath','HalfBath',
+            'FullBath','HalfBath', 'GrLivArea', 'TotalBsmtSF', 'GarageArea',
         ],
         axis    = 1,
         inplace = True
@@ -552,7 +556,7 @@ def data():
             "Utilities","Condition2","YearBuilt","RoofMatl","ExterCond","Heating","KitchenAbvGr","PoolArea","Fence",
             "MiscFeature","Street","Alley","PoolQC","LandSlope", "BsmtCond", "Id", "BsmtFinSF2","BsmtUnfSF",'1stFlrSF',
             '2ndFlrSF','WoodDeckSF','OpenPorchSF','EnclosedPorch',"Half_bath","Full_bath",'BsmtFullBath','BsmtHalfBath',
-            'FullBath','HalfBath',
+            'FullBath','HalfBath', 'GrLivArea', 'TotalBsmtSF', 'GarageArea',
         ],
         axis    = 1,
         inplace = True
@@ -574,6 +578,7 @@ def data():
     x_test_filled  = pd.DataFrame(QT.inverse_transform(x_test_impute),  columns=test.columns,     index=test.index)
 
     return x_train_filled, y_train, x_test_filled, sample
+
 
 if __name__ == "__name__":
     Native()
